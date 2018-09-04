@@ -1,0 +1,86 @@
+<div class="box" [ngSwitch]="subItem">
+
+  <ng-container *ngSwitchCase="'wan-test'">
+    <h2>動作測試</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead class="thead-light">
+          <tr>
+            <th>地址</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let house of houses | async">
+            <tr *ngIf="house != undefined">
+              <td *ngIf="seletedHouseAddress != house.address">{{house.address}}</td>
+              <td *ngIf="seletedHouseAddress == house.address"><input type="text" (focus)="showUpdateButton(house.$key)" [(ngModel)]="updateAddress.address" ></td>
+              <td>
+                <button *ngIf="seletedHouseId != house.$key" class="btn btn-success" (click)="getFloorPlans(loggedAccount, house.$key, house.address)" >樓層</button>
+                <button *ngIf="seletedHouseId == house.$key" class="btn btn-secondary" (click)="hideAll()" >取消</button>
+                <button class="btn btn-danger" (click)="wanTest()">全區測試</button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <tr>
+          <td *ngIf="(houses | async)?.length == 0">
+            請先填入住家地址
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <ng-container *ngIf="floorPlanVisible" >
+      <h2>平面圖顯示</h2>
+      <div id="imgBox" class="table-wrapper">
+        <table>
+          <tbody>
+            <td>選擇樓層</td>
+            <td *ngFor="let floorPlan of floorPlans | async">
+              <button *ngIf="seletedFloor != floorPlan.floor" class="btn btn-primary" (click)="showFloorPlan(seletedHouseId, floorPlan)">{{floorPlan.floor}}樓</button>
+              <button *ngIf="seletedFloor == floorPlan.floor" class="btn btn-danger" (click)="lanTest()">test</button>
+            </td>
+          </tbody>
+        </table>
+        <!-- <div class="img-box" *ngIf="floorPlanImageVisible"> -->
+          <!-- <img class="image1" [src]="floorPlanImageUrl" alt=""> -->
+
+        <div class="img-box" *ngIf="floorPlanImageVisible"
+          [ngStyle]="{'background-image':'url(' + seletedFloorPlan.imageUrl + ')',
+                      'height': + divHeight + 'px',
+                      'position': 'relative'}">
+          <ng-container *ngFor="let device of devices | async; let i = index">
+            <img  (click)="localTest(device)" [ngStyle]="{'height': + fireimgHeight + 'px',
+            'left': (device.geoPoint.longitude - seletedFloorPlan.upperLeft.longitude) / (seletedFloorPlan.lowerRight.longitude - seletedFloorPlan.upperLeft.longitude) * divWidth - fireimgHeight / 2 + 'px',
+            'top': (device.geoPoint.latitude - seletedFloorPlan.upperLeft.latitude) / (seletedFloorPlan.lowerRight.latitude - seletedFloorPlan.upperLeft.latitude) * divHeight - fireimgHeight + 'px',
+            'position': 'absolute',
+            'z-index': 'i'}"
+            class="image3" src="{{device.icon}}">
+            
+
+          </ng-container>
+
+          <img *ngFor="let tag of tags | async; let i = index" [ngStyle]="{'height': + fireimgHeight*0.65 + 'px',
+          'left': (tag.geoPoint.longitude - seletedFloorPlan.upperLeft.longitude) / (seletedFloorPlan.lowerRight.longitude - seletedFloorPlan.upperLeft.longitude) * divWidth - fireimgHeight / 2 + 'px',
+          'top': (tag.geoPoint.latitude - seletedFloorPlan.upperLeft.latitude) / (seletedFloorPlan.lowerRight.latitude - seletedFloorPlan.upperLeft.latitude) * divHeight - fireimgHeight + 'px',
+          'position': 'absolute', 'opacity': '0.5',
+          'z-index': 'i'}" src="{{tag.icon}}">
+          {{tagsLength}}
+        </div>
+
+
+      </div>
+
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'lan-test'">
+    <h2>分區動作測試</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'local-test'">
+    <h2>單機動作測試</h2>
+  </ng-container>
+
+</div>

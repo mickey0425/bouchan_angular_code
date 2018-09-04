@@ -1,0 +1,15 @@
+<div [ngSwitch]="subItem">
+
+  <ng-container *ngSwitchCase="'wan'">
+    <h2>全區控制</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'lan'">
+    <h2>分區控制</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'local'">
+    <h2>單機控制</h2>
+  </ng-container>
+
+</div>

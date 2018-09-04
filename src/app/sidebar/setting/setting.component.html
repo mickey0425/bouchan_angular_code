@@ -1,0 +1,122 @@
+<div class="box" [ngSwitch]="subItem">
+  <ng-container *ngSwitchCase="'profile'">
+    <h2>基本資料維護{{accountLength}}</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead class="thead-light">
+          <tr>
+            <th>Email</th>
+            <th>姓名</th>
+            <th>電話</th>
+            <th>權限</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let account of accounts | async">
+            <td>{{account.email}}</td>
+            <td>{{account.name}}</td>
+            <td>{{account.phone}}</td>
+            <td>{{(account)?.role == "manager" ? "管理員" : "使用者"}}</td>
+            <td><button class="btn btn-info">修改</button></td>
+            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+  
+  <ng-container *ngSwitchCase="'authority'">
+    <h2>權限設定</h2>
+  </ng-container>
+  
+  <ng-container *ngSwitchCase="'advanced'">
+    <h2>進階設定</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead class="thead-light">
+          <tr>
+            <th>地址</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" [(ngModel)]="newHouse.address"></td>
+            <td><button class="btn btn-secondary" (click)="addHouse()">新增</button></td>
+          </tr>
+          <ng-container *ngFor="let house of houses | async">
+            <tr *ngIf="house != undefined">
+              <td *ngIf="seletedHouseAddress != house.address">{{house.address}}</td>
+              <td *ngIf="seletedHouseAddress == house.address"><input type="text" (focus)="showUpdateButton(house.$key)" [(ngModel)]="updateAddress.address" ></td>
+              <td>
+                <button *ngIf="seletedHouseIdFromButton == house.$key" (click)="updateHouse(seletedHouseIdFromButton, updateAddress)" class="btn btn-success" >更新</button>
+                <button *ngIf="seletedHouseAddress != house.address" class="btn btn-dark" (click)="modifyHouse(house.address)">修改</button>
+                <button *ngIf="seletedHouseAddress == house.address && seletedHouseIdFromButton != house.$key" class="btn btn-primary" (click)="hideAll()">取消</button>
+                <!-- <button *ngIf="seletedHouseId != house.$key" class="btn btn-success" (click)="getFloorPlans(loggedAccount, house.$key, house.address)" >樓層</button>
+                <button *ngIf="seletedHouseId == house.$key" class="btn btn-secondary" (click)="hideAll()" >取消</button> -->
+                <button *ngIf="seletedSettingHouseId != house.$key" class="btn btn-info" (click)="showFloorDetail(loggedAccount, house.$key, house.address)" >設定平面圖</button>
+                <button *ngIf="seletedSettingHouseId == house.$key" class="btn btn-secondary" (click)="hideAll()" >取消平面圖</button>
+                <button class="btn btn-danger" (click)="deleteHouse(house.$key)">刪除</button>
+              </td>
+            </tr>
+          </ng-container>
+
+        </tbody>
+        <tr>
+          <td *ngIf="(houses | async)?.length == 0">
+            請先填入住家地址
+          </td>
+        </tr>
+      </table>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="floorPlanSettingVisible">
+    <h2>樓層設定</h2>
+    <h4>定出平面圖2個點，依序左上、右下</h4>
+    <div class="row uniform">
+      <div class="6u 12u$(xsmall)">
+        <p>左上 :
+          {{ floorPlan.upperLeft ? '緯度: ' : null }}{{ floorPlan.upperLeft ? floorPlan.upperLeft.latitude : null }}
+          {{ floorPlan.upperLeft ? ' , 經度: ' : null }}{{ floorPlan.upperLeft ? floorPlan.upperLeft.longitude : null }}</p>
+        <!-- <input type="text" value="{{ upperLeft ? '緯度: ' : null }}{{ upperLeft ? (upperLeft.latitude) : null }}{{ upperLeft ? ' , 經度: ' : null }}{{ upperLeft ? upperLeft.longitude : null }}" placeholder="左上經緯度" required/> -->
+      </div>
+      <div class="6u 12u$(xsmall)">
+        <p>右上 :
+          {{ floorPlan.upperLeft ? '緯度: ' : null }}{{ floorPlan.upperLeft ? floorPlan.upperLeft.latitude : null }}
+          {{ floorPlan.lowerRight ? ' , 經度: ' : null }}{{ floorPlan.lowerRight ? floorPlan.lowerRight.longitude : null }}</p>
+        <!-- <input type="text" value="{{ upperRight ? '緯度: ' : null }}{{ upperRight ? (upperRight.latitude) : null }}{{ upperRight ? ' , 經度: ' : null }}{{ upperRight ? upperRight.longitude : null }}" placeholder="右上經緯度" /> -->
+      </div>
+      <div class="6u 12u$(xsmall)">
+        <p>左下 :
+          {{ floorPlan.lowerRight ? '緯度: ' : null }}{{ floorPlan.lowerRight ? floorPlan.lowerRight.latitude : null }}
+          {{ floorPlan.upperLeft ? ' , 經度: ' : null }}{{ floorPlan.upperLeft ? floorPlan.upperLeft.longitude : null }}</p>
+        <!-- <input type="text" value="{{ lowerLeft ? '緯度: ' : null }}{{ lowerLeft ? (lowerLeft.latitude) : null }}{{ lowerLeft ? ' , 經度: ' : null }}{{ lowerLeft ? lowerLeft.longitude : null }}" placeholder="左下經緯度" /> -->
+      </div>
+      <div class="6u 12u$(xsmall)">
+        <p>右下 :
+          {{ floorPlan.lowerRight ? '緯度: ' : null }}{{ floorPlan.lowerRight ? floorPlan.lowerRight.latitude : null }}
+          {{ floorPlan.lowerRight ? ' , 經度: ' : null }}{{ floorPlan.lowerRight ? floorPlan.lowerRight.longitude : null }}</p>
+        <!-- <input type="text" value="{{ lowerRight ? '緯度: ' : null }}{{ lowerRight ? (lowerRight.latitude) : null }}{{ lowerRight ? ' , 經度: ' : null }}{{ lowerRight ? lowerRight.longitude : null }}" placeholder="右下經緯度" /> -->
+      </div>
+      <div class="6u 12u$(xsmall)">
+        <input type="number" [(ngModel)]="floorPlan.floor" placeholder="樓層" />
+      </div>
+      <div class="6u 12u$(xsmall)">
+        <input class="file" type="file" accept="image/*" (change)="uploadFile($event)" >上傳平面圖
+      </div>
+      <div class="12u$">
+        <ul class="actions">
+          <li><button type="submit" class="btn btn-success" (click)="uploadFloorPlan(loggedAccount, seletedSettingHouse, seletedSettingHouseId)">上傳</button></li>
+          <li><button type="button" class="btn btn-primary" (click)="hideAll()">取消</button></li>
+        </ul>
+      </div>
+    </div>
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue" (mapClick)="onChoseLocation($event)" (mapReady)="getLatLngByAddr(seletedSettingHouse)">
+      <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude" [markerDraggable]="marker.draggable"></agm-marker>
+    </agm-map>
+
+  </ng-container>
+
+  
+</div>

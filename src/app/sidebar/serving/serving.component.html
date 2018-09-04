@@ -1,0 +1,33 @@
+<div [ngSwitch]="subItem">
+
+  <ng-container *ngSwitchCase="'notice'">
+    <h2>通知</h2>
+    <table>
+        <thead class="thead-light">
+          <tr>
+            <th>裝置</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mobileDevice of mobileDevices | async">
+            <td>{{mobileDevice.mobileName}}</td>
+            <td><button class="btn btn-primary" (click)="testNotification(mobileDevice)">通知測試</button></td>
+          </tr>
+        </tbody>
+        <tr *ngIf="(mobileDevices | async)?.length == 0">
+          <td>請先安裝APP</td>
+          <td>裝了幸福有保障</td>
+        </tr>
+    </table>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'purchase'">
+    <h2>採購</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'repair'">
+    <h2>叫修</h2>
+  </ng-container>
+
+</div>

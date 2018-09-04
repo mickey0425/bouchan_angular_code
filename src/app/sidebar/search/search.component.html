@@ -1,0 +1,91 @@
+<div [ngSwitch]="subItem">
+
+  <ng-container *ngSwitchCase="'monitor'">
+    <h2>設備監視狀態</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead class="thead-light">
+          <tr>
+            <th>建立時間</th>
+            <th>名稱</th>
+            <th>設備</th>
+            <th>高度</th>
+            <th>狀態</th>
+            <th>目前電量</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let device of allDevices" >
+            <td>{{device.timestamp | date:'yyyy/MM/dd h:mm:ss a'}}</td>
+            <td>{{device.deviceName}}</td>
+            <td>{{device.type}}</td>
+            <td>{{device.height}}</td>
+            <td>{{device.thingStatus}}</td>
+            <td *ngIf="device.type == 'Tag'">{{device.voltage}}</td>
+            <td *ngIf="device.type == 'Router' || device.type == 'Node'">市電</td>
+            <td><button class="btn btn-danger" (click)="deleteDevice(device)">刪除</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'action'">
+    <h2>動作狀態</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'action-test'">
+    <h2>動作測試狀態</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'off-line'">
+    <h2>離線狀態</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'low-power'">
+    <h2>低電量狀態</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'all'">
+    <h2>全部狀態</h2>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'history'" >
+    <h2>歷史狀態</h2>
+    <button class="btn btn-primary" (click)="exportExcel(allRecords)">匯出excel</button>
+    <div class="table-wrapper">
+      <table>
+        <thead class="thead-light">
+          <tr>
+            <th>時間</th>
+            <th>警報器類型</th>
+            <th>感測器類型</th>
+            <th>序號</th>
+            <th>狀態</th>
+            <th>感測器數據</th>
+            <th>保留</th>
+            <th>電量</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of allRecords">
+            <td>{{record.timestamp | date:'yyyy/MM/dd h:mm:ss a'}}</td>
+            <td>{{record.alarmType}}</td>
+            <td>{{record.sensorType}}</td>
+            <td>{{record.serialNumber}}</td>
+            <td>{{record.status}}</td>
+            <td>{{record.sensorData}}</td>
+            <td>00</td>
+            <td>{{record.voltage}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'analysis'">
+    <h2>分析</h2>
+  </ng-container>
+
+</div>

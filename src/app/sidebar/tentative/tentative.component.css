@@ -1,0 +1,61 @@
+h2 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin: 25px 0px;
+}
+
+h4 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin: 25px 0px;
+}
+
+th {
+    text-align: center;
+    font-weight: bold;
+}
+
+td {
+    text-align: center;
+}
+
+
+ul li {
+    display: inline;
+}
+
+agm-map {
+    height: 600px;
+}
+
+.img-box {
+    /* padding: 0;                 極重要，留著 */
+    /* margin: 0; */
+    background-repeat:no-repeat;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    /* max-width: 100%; */
+    background-size:100%;
+}
+
+/* .img {
+    background-image: url("http://www.sololearn.com/uploads/css_logo.png");
+    height: 200px;
+    width: 300px;
+    background-repeat: no-repeat;
+} */
+/*
+.image1 {
+
+    z-index: -1;
+    max-width: 600px;
+    
+    width: 100%;
+}
+*/
+
+
+

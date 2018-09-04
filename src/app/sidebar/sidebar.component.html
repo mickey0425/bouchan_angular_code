@@ -1,0 +1,89 @@
+<div id="sidebar">
+  <div class="inner">
+    <!-- Menu -->
+      <nav id="menu">
+        <header class="major">
+          <h2 routerLink="/home">
+            {{(loggedAccount)?.name}} 
+            {{(loggedAccount)?.role == "manager"? "管理員": (loggedAccount)?.role == "staff"? "員工": "使用者"}}  
+            <button *ngIf="!isLogged" type="button" routerLink="/login" class="btn">登入</button>
+            <button *ngIf="isLogged" (click)="signOut()" class="btn">登出</button>
+          </h2>
+        </header>
+        <ul>
+          <li>
+            <span class="opener">查詢</span>
+            <ul>
+              <li><a routerLink="/search/monitor">監視狀態</a></li>
+              <li><a routerLink="/search/history">歷史紀錄</a></li>
+              <li><a routerLink="/search/analysis">分析(暫無功能)</a></li>
+            </ul>
+          </li>
+          <li>
+            <span class="opener">試驗</span>
+            <ul>
+              <li><a routerLink="/tentative/wan-test">動作測試</a></li>
+            </ul>
+          </li>
+          <li>
+            <span class="opener">控制</span>
+            <ul>
+              <li><a routerLink="/control/wan">全區控制(暫無)</a></li>
+              <li><a routerLink="/control/lan">分區控制(暫無)</a></li>
+              <li><a routerLink="/control/local">單機控制(暫無)</a></li>
+            </ul>
+          </li>
+          <li>
+            <span class="opener">服務</span>
+            <ul>
+              <li><a routerLink="/serving/notice">通知</a></li>
+              <li><a routerLink="/serving/purchase">採購(暫無此功能)</a></li>
+              <li><a routerLink="/serving/repair">叫修(暫無此功能)</a></li>
+            </ul>
+          </li>
+          <li>
+            <span class="opener">設定</span>
+            <ul>
+              <li><a routerLink="/setting/profile">基本資料維護</a></li>
+              <li><a routerLink="/setting/advanced">進階設定</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <header class="major">
+          <h2>即時警示狀態</h2>
+        </header>
+        <ul class="status">
+          <li class="far fa-circle" id="stay">待機狀態</li>
+          <li class="fal fa-circle" id="fire">火災測試</li>
+          <li class="fas fa-circle" id="offLine">離線警示</li>
+          <li class="fal fa-circle">低電量警示</li>
+          <li class="fal fa-circle">瓦斯動作警報</li>
+          <li class="fal fa-circle">CO動作警報</li>
+          <li class="fal fa-circle">火災警報</li>
+        </ul>
+        <!-- <ul class="information">
+          <li class="far fa-circle">紅色為警報</li>
+          <li class="far fa-circle">綠色為正常</li>
+        </ul> -->
+      </section>
+
+
+    <!-- Section -->
+      <section>
+        <header class="major">
+          <h2>聯絡我們</h2>
+        </header>
+        <p>遇到什麼問題，不管是失戀還是失戀還是失戀，都可以回報</p>
+        <ul class="contact">
+          <li class="fa-envelope-o"><a href="http://www.horinglih.com/c-contact.html">horing.lih@msa.hinet.net</a></li>
+          <li class="fa-phone"> (02) 2248-7599</li>
+          <li class="fa-home">新北市中和區中山路二段327巷18號4樓<br /></li>
+        </ul>
+      </section>
+
+
+  </div>
+  <a href="#sidebar" class="toggle"></a>
+</div>
